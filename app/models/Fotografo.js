@@ -11,15 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Fotografo.belongsTo(models.Persona, { as:"persona",foreignKey:"persona_id" })
-
+      Fotografo.belongsTo(models.Persona, { as: "persona", foreignKey: "persona_id" })
+      Fotografo.belongsToMany(models.Evento, { through: "evento_fotografo" })
     }
   }
   Fotografo.init({
     persona_id: DataTypes.INTEGER
   }, {
     sequelize,
-    tableName:'fotografos',
+    tableName: 'fotografos',
     modelName: 'Fotografo',
   });
   return Fotografo;

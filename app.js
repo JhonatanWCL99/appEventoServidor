@@ -1,22 +1,24 @@
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
+const { sequelize } = require('./app/models/index');
+var cors = require('cors')
 
-// en la solicitud de root (localhost:3000/)
-app.get('/', function (req, res) {
-    res.send('<b> Mi </b> primer servidor http express');
-});
+// Setting
+const PORT = process.env.PORT || 3000;
 
-// En localhost:3000/welcome
-app.get('/welcome', function (req, res) {
-    res.send('<b>Holi</b> Bienvenido a mi servidor http hecho con express');
-});
+// Middleware
+// Para poder rellenar el req.body
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cors()) // Use this after the variable declaration
+// Rutas
+app.use(require('./app/routes'));
 
-// Cambiar el mensaje 404 modificando el middleware
-app.use(function (req, res, next) {
-    res.status(404).send("Lo siento, esa ruta no existe. Que tengas un buen día :)");
-});
+// Arrancamos el servidor
+app.listen(PORT, function () {
+    console.log(`La app ha arrancado en http://localhost:${PORT}`);
 
-// inicie el servidor en el puerto 3000!
-app.listen(3000, function () {
-    console.log('Aplicación de ejemplo escuchando en el puerto 3000.');
+    sequelize.authenticate().then(() => {
+        console.log("Se ha establecido la conexión");
+    })
 });

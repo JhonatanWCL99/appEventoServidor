@@ -41,6 +41,14 @@ module.exports = {
           model: "organizadores",
           key: "id"
         },
+      },
+      createdAt: {
+        allowNull: true,
+        type: Sequelize.DATE
+      },
+      updatedAt: {
+        allowNull: true,
+        type: Sequelize.DATE
       }
     });
 

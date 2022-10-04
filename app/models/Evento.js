@@ -11,7 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Evento.belongsTo(models.Organizador,{as:"organizador",foreignKey:"organizador_id"})
+      Evento.belongsTo(models.Organizador, { as: "organizador", foreignKey: "organizador_id" })
+      Evento.belongsToMany(models.Invitado, { through: "evento_invitado" })
+      Evento.belongsToMany(models.Fotografo, { through: "evento_fotografo" })
     }
   }
   Evento.init({
@@ -24,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     organizador_id: DataTypes.INTEGER
   }, {
     sequelize,
-    tableName:'eventos',
+    tableName: 'eventos',
     modelName: 'Evento',
   });
   return Evento;
